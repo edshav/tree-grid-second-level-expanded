@@ -160,51 +160,42 @@ function render() {
 
     /* ── Level 2: VAR + SKA rows ─────────────────────────────────────── */
     if (bOpen) {
-      block.rows.forEach((row, ri) => {
-        const isSka = row.type === "SKA";
-        const hasSub = isSka && row.subs.length > 0;
+      block.rows.forEach((row) => {
+        // ── VAR row (unchanged)
+        if (row.type === "VAR") {
+          html += `
+      <tr class="row-txn">
+        <td class="l"><div class="cell i1"><span class="caret leaf"></span></div></td>
+        <td class="r">
+          <div class="cell num i1" style="justify-content:flex-end;gap:4px">
+            <span class="badge bv">VAR</span>
+            ${row.txn}
+          </div>
+        </td>
+        <td class="r"><div class="cell num">${row.amt}</div></td>
+        ${DASH}
+        <td class="r"><div class="cell num">${row.size}</div></td>
+        ${DASH}${DASH}${DASH}${DASH}
+      </tr>`;
+        }
 
-        /* Amount goes in VAR col for VAR rows, SKA col for SKA rows */
-        const varAmt = !isSka
-          ? `<td class="r"><div class="cell num">${row.amt}</div></td>`
-          : DASH;
-        const skaAmt = isSka
-          ? `<td class="r"><div class="cell num">${row.amt}</div></td>`
-          : DASH;
-
-        html += `
-          <tr class="row-txn"}>
-            <td class="l"><div class="cell i1"><span class="caret leaf"></span></div></td>
-            <td class="r">
-              <div class="cell num i1" style="justify-content:flex-end;gap:4px">
-              <span class="badge ${isSka ? "bs" : "bv"}">${row.type}</span>  
-              ${row.txn}
-              </div>
-            </td>
-            ${varAmt}
-            ${skaAmt}
-            <td class="r"><div class="cell num">${row.size}</div></td>
-            ${DASH}${DASH}${DASH}${DASH}
-          </tr>`;
-
-        /* ── Level 3: SKA coin-type breakdown rows ─────────────────────── */
-        if (hasSub) {
+        // ── SKA → render ONLY subs (no parent row)
+        if (row.type === "SKA") {
           row.subs.forEach((sub) => {
             html += `
-              <tr class="row-sub">
-                <td class="l"><div class="cell i2"><span class="caret leaf"></span></div></td>
-                <td class="r">
-                  <div class="cell i2" style="justify-content:flex-end;gap:4px">
-                    <span class="caret leaf"></span>
-                    <span class="badge bsu">${sub.coin}</span>
-                    ${sub.txn}
-                  </div>
-                </td>
-                ${DASH}
-                <td class="r"><div class="cell num">${sub.amt}</div></td>
-                <td class="r"><div class="cell num">${sub.size}</div></td>
-                ${DASH}${DASH}${DASH}${DASH}
-              </tr>`;
+        <tr class="row-sub">
+          <td class="l"><div class="cell i1"><span class="caret leaf"></span></div></td>
+          <td class="r">
+            <div class="cell i1" style="justify-content:flex-end;gap:4px">
+              <span class="badge bsu">${sub.coin}</span>
+              ${sub.txn}
+            </div>
+          </td>
+          ${DASH}
+          <td class="r"><div class="cell num">${sub.amt}</div></td>
+          <td class="r"><div class="cell num">${sub.size}</div></td>
+          ${DASH}${DASH}${DASH}${DASH}
+        </tr>`;
           });
         }
       });
