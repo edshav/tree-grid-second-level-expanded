@@ -16,7 +16,6 @@
   --bg-page: #f4f4f2;
   --bg-surface: #ffffff;
   --bg-root: #f9f9f7;
-  --bg-toolbar: #dce9fc;
   --bg-hover: #eef4fd;
 
   --text-primary: #1a1a18;
@@ -44,7 +43,6 @@
     --bg-page: #161618;
     --bg-surface: #202022;
     --bg-root: #272729;
-    --bg-toolbar: #202022;
     --bg-hover: #1b2e44;
 
     --text-primary: #e4e4e0;
@@ -102,43 +100,7 @@ header p {
   overflow: hidden;
 }
 
-/* ── Toolbar ── */
-.toolbar {
-  background-color: var(--bg-toolbar);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 9px 14px;
-  border-bottom: 0.5px solid var(--border-mid);
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.toolbar-left {
-  display: flex;
-  gap: 6px;
-}
-.btn {
-  font-family: var(--font-ui);
-  font-size: 11.5px;
-  font-weight: 500;
-  padding: 4px 11px;
-  border-radius: 4px;
-  border: 0.5px solid var(--border-mid);
-  background: transparent;
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition:
-    background 0.1s,
-    color 0.1s;
-}
-.btn:hover {
-  background: var(--bg-root);
-  color: var(--text-primary);
-}
-.toolbar-right {
-  font-size: 11.5px;
-  color: var(--text-tertiary);
-}
+
 
 /* ── Scroll container ── */
 .scroll-wrap {
@@ -342,21 +304,7 @@ tr.row-sep td {
   background: var(--bg-page) !important;
 }
 
-/* ── Footer legend ── */
-.legend {
-  max-width: 1200px;
-  margin: 0.9rem auto 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11.5px;
-  color: var(--text-secondary);
-}
+
 tr[data-key] {
   cursor: pointer;
 }

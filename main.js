@@ -206,7 +206,6 @@ function render() {
   });
 
   tbody.innerHTML = html;
-  updateCount();
   attachCarets();
   attachRowClicks();
 }
@@ -239,26 +238,7 @@ function attachCarets() {
   });
 }
 
-/* ── Row counter ────────────────────────────────────────────────────────── */
-function updateCount() {
-  const n = document.querySelectorAll(
-    "tr.row-root, tr.row-txn, tr.row-sub",
-  ).length;
-  document.getElementById("row-count").textContent = n + " rows visible";
-}
 
-/* ── Toolbar ────────────────────────────────────────────────────────────── */
-document.getElementById("btn-expand").addEventListener("click", () => {
-  blocks.forEach((block, bi) => {
-    state["b" + bi] = true;
-  });
-  render();
-});
-
-document.getElementById("btn-collapse").addEventListener("click", () => {
-  Object.keys(state).forEach((k) => delete state[k]);
-  render();
-});
 
 /* ── Boot ───────────────────────────────────────────────────────────────── */
 render();
