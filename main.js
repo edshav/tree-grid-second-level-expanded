@@ -94,7 +94,7 @@ function render() {
 
     /* ── Level 1: Height (root) row ──────────────────────────────────── */
     html += `
-      <tr class="row-root">
+      <tr class="row-root" data-key="${bKey}">
         <td class="l">
           <div class="cell">
             <span class="caret${bOpen ? " open" : ""}" data-key="${bKey}">&#9658;</span>
@@ -132,7 +132,7 @@ function render() {
           : DASH;
 
         html += `
-          <tr class="row-txn">
+          <tr class="row-txn" ${hasSub ? `data-key="${rKey}"` : ""}>
             <td class="l"><div class="cell i1"><span class="caret leaf"></span></div></td>
             <td class="r">
               <div class="cell num i1" style="justify-content:flex-end;gap:4px">
@@ -179,13 +179,32 @@ function render() {
   tbody.innerHTML = html;
   updateCount();
   attachCarets();
+  attachRowClicks();
+}
+
+function attachRowClicks() {
+  document.querySelectorAll("tr[data-key]").forEach(row => {
+    row.addEventListener("click", e => {
+      // prevent double-trigger when clicking caret
+      if (e.target.closest(".caret")) return;
+      // Ignore clicks on links
+      if (e.target.closest("a")) return;
+
+
+      const key = row.dataset.key;
+      state[key] = !state[key];
+      render();
+    });
+  });
 }
 
 /* ── Caret listeners ────────────────────────────────────────────────────── */
 function attachCarets() {
   document.querySelectorAll(".caret[data-key]").forEach(el => {
     el.addEventListener("click", e => {
+      e.stopPropagation(); // 👈 prevent row click
       e.preventDefault();
+
       state[el.dataset.key] = !state[el.dataset.key];
       render();
     });
